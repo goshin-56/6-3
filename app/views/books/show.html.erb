@@ -11,14 +11,22 @@
   		<table class='table'>
   		  <tr>
           <td><%= link_to user_path(@user.id) do %>
-            <%= image_tag @user.get_profile_image("100x100") %><br>
+            <%= image_tag @user.get_profile_image, size:"100x100" %><br>
             <%= @user.name %>
             <% end %>
           </td>
           <td><%= link_to @book_show.title, book_path(@book_show.id) %></td>
           <td><%= @book_show.body %></td>
-            <td><%= link_to 'Edit', edit_book_path(@book_show.id), class: "btn btn-sm btn-success edit_book_#{@book_show.id}" %></td>
-            <td><%= link_to 'Destroy', book_path, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book_show.id}"%></td>
+          <td>
+            <% if @book_show.user == current_user %>
+              <%= link_to 'Edit', edit_book_path(@book_show.id), class: "btn btn-sm btn-success edit_book_#{@book_show.id}" %>
+            <% end %>
+          </td>
+          <td>
+            <% if @book_show.user == current_user %>
+              <%= link_to 'Destroy', book_path, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book_show.id}"%>
+            <% end %>
+          </td>
         </tr>
       </table>
     </div>
