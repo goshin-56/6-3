@@ -4,6 +4,8 @@ class BooksController < ApplicationController
     @book = Book.new
     @book_show=Book.find(params[:id])
     @user=@book_show.user
+    @comment = Comment.new
+    @comments = @book_show.comments.page(params[:page]).per(7).reverse_order
   end
 
   def index
