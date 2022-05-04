@@ -13,7 +13,35 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
+  # フォローをした、されたの関係
+  has_many :relationships, class_name: "Relationship", foreign_key: "follower_id"
+  has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id"
+
+  # 一覧画面で使う
+  has_many :followings, through: :relationships, source: :followed
+  has_many :followers, through: :reverse_of_relationships, source: :follower
+
   def get_profile_image
     (profile_image.attached?) ? profile_image : 'no_image.jpg'
   end
+
+
+  def follow(another_user)
+    unless self == another_user
+      self.relationships.find_or_create_by(followed_id: another_user.id)
+    end
+  end
+
+  def unfollow(another_user)
+    unless self == another_user
+      relationship = self.relationships.find_by(followed_id: another_user.id)
+      relationship.destroy
+    end
+  end
+
+  # フォローしているか判定
+  def following?(another_user)
+    self.followings.include?(another_user)
+  end
+
 end

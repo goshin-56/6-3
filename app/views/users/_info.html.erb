@@ -8,6 +8,22 @@
 	  <th>introduction</th>
 	  <th><%= user.introduction %></th>
   </tr>
+  <tr>
+    <th>follow</th>
+    <th>
+      <%= link_to followings_user_path(user) do %>
+        <%= user.followings.count %>人
+      <% end %>
+    </th>
+  </tr>
+  <tr>
+    <th>follower</th>
+    <th>
+      <%= link_to followers_user_path(user) do %>
+        <%= user.followers.count %>人
+      <% end %>
+    </th>
+  </tr>
 </table>
 
 <div class='row'>
