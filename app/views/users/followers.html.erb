@@ -1,1 +1,3 @@
+<h2><%= current_user==@user?"自分":@user.name%>をフォローしているリスト</h2>
+
 <%= render 'index', users: @user.followers %>
